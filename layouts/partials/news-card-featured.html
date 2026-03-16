@@ -1,12 +1,12 @@
-{{- $post := . -}}
-{{- $category := "General" -}}
-{{- with $post.Params.categories }}
-  {{- $category = index . 0 -}}
-{{- else if $post.Params.category -}}
-  {{- $category = $post.Params.category -}}
-{{- end -}}
-{{- $author := or $post.Params.author site.Params.author "Unknown" -}}
-{{- $summary := or $post.Description ($post.Summary | plainify) -}}
+{{ $post := . }}
+{{ $category := "General" }}
+{{ with $post.Params.categories }}
+  {{ $category = index . 0 }}
+{{ else if $post.Params.category }}
+  {{ $category = $post.Params.category }}
+{{ end }}
+{{ $author := or $post.Params.author site.Params.author "Unknown" }}
+{{ $summary := or $post.Description ($post.Summary | plainify) }}
 
 <article class="news-card news-card-featured">
   <a class="news-card-link" href="{{ $post.RelPermalink }}">
