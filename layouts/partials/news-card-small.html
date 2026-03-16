@@ -1,35 +1,19 @@
-{{- $post := . -}}
-{{- $category := "General" -}}
-{{- with $post.Params.categories }}
-  {{- $category = index . 0 -}}
-{{- else if $post.Params.category -}}
-  {{- $category = $post.Params.category -}}
-{{- end -}}
-{{- $author := or $post.Params.author site.Params.author "Unknown" -}}
-
 <article class="news-card news-card-small">
-  <a class="news-card-link" href="{{ $post.RelPermalink }}">
-    <div class="news-card-cover">
-      {{ if $post.Params.cover }}
-        {{ with $post.Resources.Get $post.Params.cover }}
-          <img src="{{ .RelPermalink }}" alt="{{ $post.Title }}" loading="lazy" />
-        {{ else }}
-          <img src="{{ $post.Params.cover }}" alt="{{ $post.Title }}" loading="lazy" />
-        {{ end }}
-      {{ else }}
-        {{ with resources.Get "images/default1.jpg" }}
-          <img src="{{ .RelPermalink }}" alt="{{ $post.Title }}" loading="lazy" />
-        {{ end }}
-      {{ end }}
-    </div>
 
-    <div class="news-card-body">
-      <p class="news-card-meta">
-        <span class="news-category">{{ $category }}</span>
-        <span class="news-date">{{ $post.Date | time.Format "Jan 2, 2006" }}</span>
-      </p>
-      <h2 class="news-card-title">{{ $post.Title }}</h2>
-      <p class="news-card-author">{{ $author }}</p>
-    </div>
+  <a href="{{ .RelPermalink }}">
+
+    {{ if .Params.cover }}
+    <img src="{{ .Params.cover }}" alt="{{ .Title }}">
+    {{ end }}
+
+    <h3 class="news-card-title">
+      {{ .Title }}
+    </h3>
+
+    <p class="news-meta">
+      {{ .Date.Format "Jan 2, 2006" }}
+    </p>
+
   </a>
+
 </article>

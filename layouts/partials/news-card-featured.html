@@ -1,40 +1,26 @@
-{{- $post := . -}}
-{{- $category := "General" -}}
-
-{{- with $post.Params.categories }}
-{{- $category = index . 0 -}}
-{{- else if $post.Params.category }}
-{{- $category = $post.Params.category -}}
-{{- end }}
-
-{{- $author := or $post.Params.author site.Params.author "Unknown" -}}
-{{- $summary := $post.Description | default ($post.Summary | plainify) -}}
-
 <article class="news-card news-card-featured">
-  <a class="news-card-link" href="{{ $post.RelPermalink }}">
-    <div class="news-card-cover">
 
-      {{ if $post.Params.cover }}
-      <img src="{{ $post.Params.cover }}" alt="{{ $post.Title }}" loading="lazy">
-      {{ else }}
-      <img src="/images/default3.jpg" alt="{{ $post.Title }}" loading="lazy">
+  <a href="{{ .RelPermalink }}">
+
+    {{ if .Params.cover }}
+    <img src="{{ .Params.cover }}" alt="{{ .Title }}">
+    {{ end }}
+
+    <p class="news-meta">
+      {{ with .Params.categories }}
+      {{ index . 0 }}
       {{ end }}
+      · {{ .Date.Format "Jan 2, 2006" }}
+    </p>
 
-    </div>
+    <h1 class="news-card-title">
+      {{ .Title }}
+    </h1>
 
-    <div class="news-card-body">
-      <p class="news-card-meta">
-        <span class="news-category">{{ $category }}</span>
-        <span class="news-date">{{ $post.Date.Format "Jan 2, 2006" }}</span>
-      </p>
+    <p>
+      {{ .Summary | plainify | truncate 180 }}
+    </p>
 
-      <h1 class="news-card-title">{{ $post.Title }}</h1>
-
-      {{ if $summary }}
-      <p class="news-card-summary">{{ $summary | truncate 180 }}</p>
-      {{ end }}
-
-      <p class="news-card-author">{{ $author }}</p>
-    </div>
   </a>
+
 </article>
