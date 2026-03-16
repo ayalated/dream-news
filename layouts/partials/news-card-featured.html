@@ -1,36 +1,39 @@
 {{- $post := . -}}
 {{- $category := "General" -}}
+
 {{- with $post.Params.categories }}
-  {{- $category = index . 0 -}}
-{{- else if $post.Params.category -}}
-  {{- $category = $post.Params.category -}}
-{{- end -}}
+{{- $category = index . 0 -}}
+{{- else if $post.Params.category }}
+{{- $category = $post.Params.category -}}
+{{- end }}
+
 {{- $author := or $post.Params.author site.Params.author "Unknown" -}}
-{{- $summary := or $post.Description ($post.Summary | plainify) -}}
+{{- $summary := $post.Description | default ($post.Summary | plainify) -}}
 
 <article class="news-card news-card-featured">
   <a class="news-card-link" href="{{ $post.RelPermalink }}">
     <div class="news-card-cover">
+
       {{ if $post.Params.cover }}
-        {{ with $post.Resources.Get $post.Params.cover }}
-          <img src="{{ .RelPermalink }}" alt="{{ $post.Title }}" loading="lazy" />
-        {{ else }}
-          <img src="{{ $post.Params.cover }}" alt="{{ $post.Title }}" loading="lazy" />
-        {{ end }}
+      <img src="{{ $post.Params.cover }}" alt="{{ $post.Title }}" loading="lazy">
       {{ else }}
-        {{ with resources.Get "images/default3.jpg" }}
-          <img src="{{ .RelPermalink }}" alt="{{ $post.Title }}" loading="lazy" />
-        {{ end }}
+      <img src="/images/default3.jpg" alt="{{ $post.Title }}" loading="lazy">
       {{ end }}
+
     </div>
 
     <div class="news-card-body">
       <p class="news-card-meta">
         <span class="news-category">{{ $category }}</span>
-        <span class="news-date">{{ $post.Date | time.Format "Jan 2, 2006" }}</span>
+        <span class="news-date">{{ $post.Date.Format "Jan 2, 2006" }}</span>
       </p>
+
       <h1 class="news-card-title">{{ $post.Title }}</h1>
+
+      {{ if $summary }}
       <p class="news-card-summary">{{ $summary | truncate 180 }}</p>
+      {{ end }}
+
       <p class="news-card-author">{{ $author }}</p>
     </div>
   </a>
