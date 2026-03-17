@@ -1,6 +1,6 @@
 {{- $post := . -}}
 {{- $category := "General" -}}
-{{- with $post.Params.categories }}
+{{- if $post.Params.categories }}
   {{- $category = index . 0 -}}
 {{- else if $post.Params.category -}}
   {{- $category = $post.Params.category -}}
