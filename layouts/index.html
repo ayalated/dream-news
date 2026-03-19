@@ -40,6 +40,7 @@
   </section>
 
   {{ $bloomberg := (where site.RegularPages "Params.source" "bloomberg").ByDate.Reverse }}
+  {{/* DEBUG: */ }}{{ range site.RegularPages }}<p style="font-size:10px">{{ .Title }}: source=[{{ .Params.source }}]</p>{{ end }}
   {{ $nyt := (where site.RegularPages "Params.source" "nyt").ByDate.Reverse }}
   {{ $wp := (where site.RegularPages "Params.source" "wp").ByDate.Reverse }}
 
