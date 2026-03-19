@@ -39,6 +39,18 @@
     </div>
   </section>
 
+  {{ $bloomberg := (where site.RegularPages "Params.source" "bloomberg").ByDate.Reverse }}
+  {{ $nyt := (where site.RegularPages "Params.source" "nyt").ByDate.Reverse }}
+  {{ $wp := (where site.RegularPages "Params.source" "wp").ByDate.Reverse }}
+
+  <section class="news-sources mt-10 px-4">
+    <div class="news-sources-grid">
+      {{ partial "news-list-compact.html" (dict "posts" $bloomberg "title" "Bloomberg") }}
+      {{ partial "news-list-compact.html" (dict "posts" $nyt "title" "New York Times") }}
+      {{ partial "news-list-compact.html" (dict "posts" $wp "title" "Washington Post") }}
+    </div>
+  </section>
+
   {{ if gt (len $remainingPosts) 0 }}
   <section class="dream-grid opacity-0 mt-8">
     {{ range $remainingPosts }}
@@ -179,6 +191,73 @@
   .news-column-right {
     grid-column: auto;
     grid-row: auto;
+  }
+}
+
+.news-sources {
+  max-width: 1120px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.news-sources-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+
+.news-source-column h3 {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: hsl(var(--p));
+  margin: 0 0 0.5rem;
+  padding-bottom: 0.4rem;
+  border-bottom: 2px solid hsl(var(--p));
+}
+
+.news-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-bottom: 1px solid hsl(var(--bc) / 0.1);
+  padding: 0.5rem 0;
+  text-decoration: none;
+  color: inherit;
+}
+
+.news-item:hover .news-text h4 {
+  color: hsl(var(--p));
+}
+
+.news-text {
+  flex: 1;
+}
+
+.news-text h4 {
+  font-size: 0.85rem;
+  line-height: 1.2;
+  margin: 0;
+  font-weight: 600;
+  transition: color 0.15s ease;
+}
+
+.news-thumb {
+  flex-shrink: 0;
+}
+
+.news-thumb img {
+  width: 70px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 0.2rem;
+  display: block;
+}
+
+@media (max-width: 768px) {
+  .news-sources-grid {
+    grid-template-columns: 1fr;
   }
 }
 </style>
